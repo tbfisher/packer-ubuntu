@@ -26,7 +26,7 @@
         " -- ",
         "<enter>"
       ],
-      "disk_size": 10140,
+      "disk_size": 32768,
       "guest_os_type": "ubuntu-64",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
@@ -74,7 +74,7 @@
         " -- ",
         "<enter>"
       ],
-      "disk_size": 10140,
+      "disk_size": 32768,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Ubuntu_64",
       "hard_drive_interface": "sata",
@@ -134,7 +134,7 @@
         " -- ",
         "<enter>"
       ],
-      "disk_size": 10140,
+      "disk_size": 32768,
       "guest_os_type": "ubuntu",
       "http_directory": "http",
       "iso_checksum": "{{ user `iso_checksum` }}",
