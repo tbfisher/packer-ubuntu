@@ -7,7 +7,7 @@ crash.log
 tmp
 .vagrant/
 *.swp
-Makefile.local
+#Makefile.local
 .tmpatlas/
 
 .DS_Store
