@@ -71,18 +71,22 @@ install_puppet()
     echo "==> Installing Puppet"
     . /etc/lsb-release
 
-    DEB_NAME=puppetlabs-release-${DISTRIB_CODENAME}.deb
+    DEB_NAME=puppetlabs-release-pc1-${DISTRIB_CODENAME}.deb
     wget http://apt.puppetlabs.com/${DEB_NAME}
     dpkg -i ${DEB_NAME}
     apt-get update
     if [[ ${CM_VERSION:-} == 'latest' ]]; then
+      sudo puppet resource package puppet ensure=latest
       echo "Installing latest Puppet version"
-      apt-get install -y puppet
+      apt-get install -y puppet-agent
     else
       echo "Installing Puppet version $CM_VERSION"
-      apt-get install -y puppet-common=$CM_VERSION puppet=$CM_VERSION
+      apt-get install -y puppet-agent=$CM_VERSION
     fi
     rm -f ${DEB_NAME}
+
+    echo "==> Adding Puppet to PATH"
+    echo 'PATH=/opt/puppetlabs/bin:$PATH' > /etc/profile.d/puppet.sh
 }
 
 install_ansible()
