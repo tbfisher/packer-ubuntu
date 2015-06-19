@@ -26,11 +26,17 @@
         " -- ",
         "<enter>"
       ],
-      "disk_size": 40960,
+      "disk_size": 130048,
+      "floppy_files": [
+        "floppy/vmhgfs-f_dentry-kernel-3.19-tools-9.9.2.patch",
+        "floppy/inode-d_alias.patch",
+        "floppy/page-smp_mb.patch"
+      ],
       "guest_os_type": "ubuntu-64",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
-      "iso_checksum_type": "none",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha1",
       "iso_urls": [
         "{{ user `iso_path` }}/{{ user `iso_name` }}",
         "{{ user `iso_url` }}"
@@ -63,13 +69,14 @@
         "passwd/username={{ user `ssh_username` }} ",
         "initrd=/install/initrd.gz -- <enter>"
       ],
-      "disk_size": 40960,
+      "disk_size": 130048,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Ubuntu_64",
       "hard_drive_interface": "sata",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
-      "iso_checksum_type": "none",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha1",
       "iso_urls": [
         "{{ user `iso_path` }}/{{ user `iso_name` }}",
         "{{ user `iso_url` }}"
@@ -112,7 +119,7 @@
         "passwd/username={{ user `ssh_username` }} ",
         "initrd=/install/initrd.gz -- <enter>"
       ],
-      "disk_size": 40960,
+      "disk_size": 130048,
       "guest_os_type": "ubuntu",
       "http_directory": "http",
       "iso_checksum": "{{ user `iso_checksum` }}",
@@ -192,7 +199,7 @@
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "install_vagrant_key": true,
-    "iso_checksum": "",
+    "iso_checksum": "d10248965c2c749df6bcce9f2f90f16a2e75e843",
     "iso_name": "ubuntu-15.04-server-amd64.iso",
     "iso_path": "iso",
     "iso_url": "http://releases.ubuntu.com/15.04/ubuntu-15.04-server-amd64.iso",

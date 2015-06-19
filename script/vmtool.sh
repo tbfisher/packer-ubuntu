@@ -9,12 +9,44 @@ if [[ $PACKER_BUILDER_TYPE =~ vmware ]]; then
 
     cd /tmp
     mkdir -p /mnt/cdrom
-    mount -o loop /home/${SSH_USER}/linux.iso /mnt/cdrom
+    mount -o loop /home/vagrant/linux.iso /mnt/cdrom
     tar zxf /mnt/cdrom/VMwareTools-*.tar.gz -C /tmp/
+
+    if [[ -f /mnt/cdrom/VMwareTools-9.9.2-2496486.tar.gz ]]
+    then
+        if [[ $(lsb_release -rs) =~ 15.04 ]]
+        then
+            # VMware Tools 9.9.2 build-2496486 has issues with Ubuntu 15.04
+            # Patch the appropriate files to compile successfully      
+            mkdir -p /mnt/floppy
+            modprobe floppy
+            mount -t vfat /dev/fd0 /mnt/floppy
+
+            cd /tmp/vmware-tools-distrib
+
+            pushd lib/modules/source
+            if [ ! -f vmhgfs.tar.orig ]
+            then
+                cp vmhgfs.tar vmhgfs.tar.orig
+            fi
+            rm -rf vmhgfs-only
+            tar xf vmhgfs.tar
+            pushd vmhgfs-only
+            patch -p1 < /mnt/floppy/vmhgfs-f_dentry-kernel-3.19-tools-9.9.2.patch
+            patch inode.c < /mnt/floppy/inode-d_alias.patch
+            patch page.c < /mnt/floppy/page-smp_mb.patch
+            popd
+            tar cf vmhgfs.tar vmhgfs-only
+            rm -rf vmhgfs-only
+
+            umount /mnt/floppy
+            rmdir /mnt/floppy
+        fi
+    fi
 
     /tmp/vmware-tools-distrib/vmware-install.pl -d
 
-    rm /home/${SSH_USER}/linux.iso
+    rm /home/vagrant/linux.iso
     umount /mnt/cdrom
     rmdir /mnt/cdrom
     rm -rf /tmp/VMwareTools-*

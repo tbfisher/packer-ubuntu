@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.0.20 (2015-06-18)
+
+* Increase lazy-allocated disk size for server images to 64GB
+* Increase lazy-allocated disk size for desktop images to 127GB
+
+## 1.0.19 (2015-06-07)
+
+* Add Ubuntu 15.04 images for VMware
+
+## 1.0.18 (2015-06-06)
+
+* Removed 10.04 images - Ubuntu 10.04 stopped getting updates April 2015
+* Upgrade Parallels Tools to 10.2.1
+* Add Ubuntu 15.04 images for Parallels
+* Upgrade VirtualBox Guest Additions to 4.3.28
+
 ## 1.0.17 (2015-05-05)
 
 * Ubuntu 15.04 released, switch to release ISOs instead of daily ISOs
