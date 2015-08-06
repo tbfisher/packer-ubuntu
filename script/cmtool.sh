@@ -78,10 +78,10 @@ install_puppet()
     if [[ ${CM_VERSION:-} == 'latest' ]]; then
       sudo puppet resource package puppet ensure=latest
       echo "Installing latest Puppet version"
-      apt-get install -y puppet-agent
+      apt-get install -y ruby puppet-agent
     else
       echo "Installing Puppet version $CM_VERSION"
-      apt-get install -y puppet-agent=$CM_VERSION
+      apt-get install -y ruby puppet-agent=$CM_VERSION
     fi
     rm -f ${DEB_NAME}
 
