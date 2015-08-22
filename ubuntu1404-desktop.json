@@ -52,7 +52,7 @@
       "boot_command": [
         "<esc><esc><enter><wait>",
         "/install/vmlinuz noapic ",
-        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
+        "file=/floppy/preseed.cfg ",
         "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
         "hostname={{ user `hostname` }} ",
         "fb=false debconf/frontend=noninteractive ",
@@ -65,10 +65,13 @@
         "initrd=/install/initrd.gz -- <enter>"
       ],
       "disk_size": 130048,
+      "floppy_files": [
+        "http/preseed.cfg"
+      ],
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Ubuntu_64",
+      "hard_drive_interface": "sata",
       "headless": "{{ user `headless` }}",
-      "http_directory": "http",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "sha1",
       "iso_urls": [
@@ -193,10 +196,10 @@
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "install_vagrant_key": "true",
-    "iso_checksum": "3bfa6eac84d527380d0cc52db9092cde127f161e",
-    "iso_name": "ubuntu-14.04.2-server-amd64.iso",
+    "iso_checksum": "0501c446929f713eb162ae2088d8dc8b6426224a",
+    "iso_name": "ubuntu-14.04.3-server-amd64.iso",
     "iso_path": "iso",
-    "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04.2-server-amd64.iso",
+    "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04.3-server-amd64.iso",
     "no_proxy": "{{env `no_proxy`}}",
     "rsync_proxy": "{{env `rsync_proxy`}}",
     "hostname": "vagrant",
