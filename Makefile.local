@@ -1,4 +1,2 @@
-CM := puppet
-CM_VERSION := latest
 HEADLESS := false
 UPDATE := false
