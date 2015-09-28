@@ -1,4 +1,4 @@
-CM := puppet
-CM_VERSION := latest
+CM := salt
+CM_VERSION := v2015.8.0
 HEADLESS := false
 UPDATE := false
