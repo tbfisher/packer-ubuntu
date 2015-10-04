@@ -137,6 +137,7 @@
         "script/vmware.sh",
         "script/virtualbox.sh",
         "script/docker.sh",
+        "script/docker-compose.sh",
         "script/cmtool.sh",
         "script/motd.sh",
         "script/cleanup.sh"

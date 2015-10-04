@@ -1,12 +1,13 @@
 ## Build
 
 ```shell
-git checkout tbfisher/build
+git checkout tbfisher/build-docker
 ```
+
 @todo
 
 ```shell
-git merge 2.0.3
+git merge 2.0.4
 # ...
 ```
 
@@ -21,13 +22,13 @@ Start each provider, check for updates
 Test any mods
 
 ```shell
-make ssh-vmware/ubuntu1404
-make ssh-vmware/ubuntu1204
+make ssh-vmware/ubuntu1504-docker
 
 # will dump into ssh session inside vm
 
 df -h # 64G
-puppet --version
+docker --version
+docker-compose --version
 ```
 
 Build
@@ -35,8 +36,7 @@ Build
 ```shell
 rm -rf box/*/*
 
-make ubuntu1404
-make ubuntu1204
+make ubuntu1504-docker
 ```
 
 Upload
@@ -51,7 +51,7 @@ cat VERSION
 Verify
 
 ```shell
-BOX=ubuntu1404
+BOX=ubuntu1504-docker
 
 rm Vagrantfile
 vagrant init tbfisher/${BOX}
@@ -67,16 +67,17 @@ vagrant destroy
 
 ### Atlas Description
 
-[14.04](https://atlas.hashicorp.com/tbfisher/boxes/ubuntu1404dockersalt)
+[15.04-docker](https://atlas.hashicorp.com/tbfisher/boxes/ubuntu1504docker)
 
-Ubuntu 14.04 with Puppet
+Ubuntu 15.04 with Docker
 
-Fork of boxcutter/ubuntu1404
+Fork of boxcutter/ubuntu1504
 
 With
 
 -   64 GB disk
--   Puppet 3.8.3
+-   Docker 1.8.2
+-   Docker Compose 1.4.2
 
 Built with
 
