@@ -188,6 +188,7 @@
         "script/parallels.sh",
         "script/docker.sh",
         "script/docker-compose.sh",
+        "script/docker-machine.sh",
         "script/cmtool.sh",
         "script/motd.sh",
         "custom-script.sh",

@@ -11,13 +11,41 @@ git merge 2.0.4
 # ...
 ```
 
-See available builds
+Start each provider, check for updates
+
+Test
 
 ```shell
-make list
+./bin/box build ubuntu1504-docker vmware
+./bin/box ssh box/vmware/ubuntu1504-docker-nocm-$(cat VERSION).box vmware
+##
+df -h # 64G
+docker --version
+docker-compose --version
+docker-machine --version
+exit
+
+./bin/box build ubuntu1504-docker virtualbox
 ```
 
-Start each provider, check for updates
+Build
+
+```shell
+rm -rf box/*/*
+
+./build-box -parallel=false
+
+
+packer build -only=vmware-iso -var-file=ubuntu1504.json ubuntu.json && \
+packer build -only=virtualbox-iso -var-file=ubuntu1504.json ubuntu.json
+```
+
+
+
+
+
+
+
 
 Test any mods
 
@@ -29,14 +57,7 @@ make ssh-vmware/ubuntu1504-docker
 df -h # 64G
 docker --version
 docker-compose --version
-```
-
-Build
-
-```shell
-rm -rf box/*/*
-
-make ubuntu1504-docker
+docker-machine --version
 ```
 
 Upload
@@ -81,7 +102,7 @@ With
 
 Built with
 
--   VMware Fusion 7.1.2
--   Virutalbox 5.0.0
+-   VMware Fusion 7.1.3
+-   Virutalbox 5.0.10
 
 https://github.com/tbfisher/packer-ubuntu

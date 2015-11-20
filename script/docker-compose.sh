@@ -1,15 +1,12 @@
 #!/bin/bash
 
-SSH_USERNAME=${SSH_USERNAME:-vagrant}
-
-UBUNTU_MAJOR_VERSION=$(lsb_release -rs | cut -f1 -d .)
+DOCKERCOMPOSE_VERSION=1.5.1
 
 docker_compose_package_install() {
-    # Update your sources
-    apt-get update
 
-    apt-get -y install python-pip
-    pip install -U docker-compose
+  curl -L https://github.com/docker/compose/releases/download/${DOCKERCOMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+  chmod +x /usr/local/bin/docker-compose
+
 }
 
 docker_compose_package_install
