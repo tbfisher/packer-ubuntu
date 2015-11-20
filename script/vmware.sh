@@ -24,11 +24,22 @@ if [[ $PACKER_BUILDER_TYPE =~ vmware ]]; then
     if [ "${VMWARE_TOOLS_MAJOR_VERSION}" -lt "10" ]; then
         /tmp/vmware-tools-distrib/vmware-install.pl -d
     else
-        /tmp/vmware-tools-distrib/vmware-install.pl --force-install
+        /tmp/vmware-tools-distrib/vmware-install.pl -f
     fi
 
     rm /home/${SSH_USERNAME}/linux.iso
     umount /mnt/cdrom
     rmdir /mnt/cdrom
     rm -rf /tmp/VMwareTools-*
+
+    VMWARE_TOOLBOX_CMD_VERSION=$(vmware-toolbox-cmd -v)
+    echo "==> Installed VMware Tools ${VMWARE_TOOLBOX_CMD_VERSION}" 
+
+    echo "==> Checking version of Ubuntu"
+    . /etc/lsb-release
+    if [[ $DISTRIB_RELEASE == 15.10 ]]; then
+      echo "==> Applying workaround for Ubuntu 15.10"
+      sed -i.orig 's/^Exec=.*/Exec=env VMWARE_USE_SHIPPED_LIBS=1 \/usr\/bin\/vmare-user/' /etc/vmware-tools/vmware-user.desktop
+      cat /etc/vmware-tools/vmware-user.desktop
+    fi
 fi

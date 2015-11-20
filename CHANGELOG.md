@@ -1,5 +1,31 @@
 # Changelog
 
+## 2.0.9 (2015-11-19)
+
+* Make images smaller by delaying creation of the swap partition
+* Upgrade Parallels tools to 11.1.0
+* Upgrade to Docker 1.9.0
+
+## 2.0.8 (2015-11-12)
+
+* Upgrade VirtualBox guest additions to 5.0.10
+* Upgrade VMware guest tools to 10.0.1 for VMware Fusion 8.0.2
+
+## 2.0.7 (2015-10-25)
+
+* Add Parallels 11.0.2 templates
+* Switch to using a single template for all boxes and var-files for parameters
+
+## 2.0.6 (2015-10-22)
+
+* Upgrade VirtualBox guest additions to 5.0.8
+* Removed Ubuntu1410 templates - end of life July 23, 2015
+* Upgrade to Docker 1.8.3
+
+## 2.0.5 (2015-10-03)
+
+* Upgrade VirtualBox guest additions to 5.0.6
+
 ## 2.0.4 (2015-10-02)
 
 * Add an motd banner

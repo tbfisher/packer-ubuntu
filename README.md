@@ -2,21 +2,20 @@
 
 ### Overview
 
-This repository contains templates for Ubuntu that can create Vagrant boxes
-using Packer.
+This repository contains [Packer](https://packer.io/) templates for creating Ubuntu Vagrant boxes.
 
 ## Current Boxes
 
 64-bit boxes:
 
+* [Ubuntu Server 15.10 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1510)
 * [Ubuntu Server 15.04 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1504)
-* [Ubuntu Desktop 15.04 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1504-desktop)
 * [Ubuntu Server 15.04 (64-bit) with Docker preinstalled](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1504-docker)
 * [Ubuntu Server 14.10 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1410)
 * [Ubuntu Server 14.10 (64-bit) with Docker preinstalled](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1410-docker)
-* [Ubuntu Server 14.04.2 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1404)
-* [Ubuntu Desktop 14.04.2 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1404-desktop)
-* [Ubuntu Server 14.04.2 (64-bit) with Docker preinstalled](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1404-docker)
+* [Ubuntu Server 14.04.3 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1404)
+* [Ubuntu Desktop 14.04.3 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1404-desktop)
+* [Ubuntu Server 14.04.3 (64-bit) with Docker preinstalled](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1404-docker)
 * [Ubuntu Server 12.04.5 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1204)
 * [Ubuntu Desktop 12.04.4 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1204-desktop)
 * [Ubuntu Server 12.04.5 (64-bit) with Docker preinstalled](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1204-docker)
@@ -25,30 +24,65 @@ using Packer.
 
 * [Ubuntu Server 15.04 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1504-i386)
 * [Ubuntu Server 14.10 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1410-i386)
-* [Ubuntu Server 14.04.1 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1404-i386)
+* [Ubuntu Server 14.04.3 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1404-i386)
 * [Ubuntu Server 12.04.5 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1204-i386)
 
-## Building the Vagrant boxes
+## Building the Vagrant boxes with Packer
 
-To build all the boxes, you will need VirtualBox and VMware Fusion installed.
+To build all the boxes, you will need [VirtualBox](https://www.virtualbox.org/wiki/Downloads), 
+[VMware Fusion](https://www.vmware.com/products/fusion)/[VMware Workstation](https://www.vmware.com/products/workstation) and
+[Parallels](http://www.parallels.com/products/desktop/whats-new/) installed.
 
-A GNU Make `Makefile` drives the process via the following targets:
+Parallels requires that the
+[Parallels Virtualization SDK for Mac](http://www.parallels.com/downloads/desktop)
+be installed as an additional preqrequisite.
 
-    make        # Build all available box types
-    make test   # Run tests against all the boxes
-    make list   # Print out the list of all available boxes
-    make clean  # Clean up build detritus
+We make use of JSON files containing user variables to build specific versions of Ubuntu.
+You tell `packer` to use a specific user variable file via the `-var-file=` command line
+option.  This will override the default options on the core `ubuntu.json` packer template,
+which builds Ubuntu 14.04 by default.
 
-To build one particular box, e.g. `ubuntu1404`,
-for just one provider, e.g. VirtualBox,
-first run `make list` subcommand:
+For example, to build Ubuntu 15.04, use the following:
 
-    make list
+    $ packer build -var-file=ubuntu1504.json ubuntu.json
+    
+If you want to make boxes for a specific desktop virtualization platform, use the `-only`
+parameter.  For example, to build Ubuntu 15.04 for VirtualBox:
 
-This command prints the list of available boxes.
-Then you can build one particular box for choosen provider:
+    $ packer build -only=virtualbox-iso -var-file=ubuntu1504.json ubuntu.json
 
-    make virtualbox/ubuntu1404
+The boxcutter templates currently support the following desktop virtualization strings:
+
+* `parallels-iso` - [Parallels](http://www.parallels.com/products/desktop/whats-new/) desktop virtualization (Requires the Pro Edition - Desktop edition won't work)
+* `virtualbox-iso` - [VirtualBox](https://www.virtualbox.org/wiki/Downloads) desktop virtualization
+* `vmware-iso` - [VMware Fusion](https://www.vmware.com/products/fusion) or [VMware Workstation](https://www.vmware.com/products/workstation) desktop virtualization
+
+## Building the Vagrant boxes with the box script
+
+We've also provided a wrapper script `bin/box` for ease of use, so alternatively, you can use
+the following to build Ubuntu 15.04 for all providers:
+
+    $ bin/box build ubuntu1504
+
+Or if you just want to build Ubuntu 15.04 for VirtualBox:
+
+    $ bin/box build ubuntu1504 virtualbox
+
+## Building the Vagrant boxes with the Makefile
+
+A GNU Make `Makefile` drives a complete basebox creation pipeline with the following stages:
+
+* `build` - Create basebox `*.box` files
+* `assure` - Verify that the basebox `*.box` files produced function correctly
+* `deliver` - Upload `*.box` files to [Artifactory](https://www.jfrog.com/confluence/display/RTF/Vagrant+Repositories), [Atlas](https://atlas.hashicorp.com/) or an [S3 bucket](https://aws.amazon.com/s3/)
+
+The pipeline is driven via the following targets, making it easy for you to include them
+in your favourite CI tool:
+
+    make build   # Build all available box types
+    make assure  # Run tests against all the boxes
+    make deliver # Upload box artifacts to a repository
+    make clean   # Clean up build detritus
 
 ### Proxy Settings
 
@@ -152,7 +186,16 @@ Set `INSTALL_VAGRANT_KEY := false`, the default is true.
 8. Push to your fork and submit a pull request.
 9. Once submitted, a full `make test` run will be performed against your change in the build farm.  You will be notified if the test suite fails.
 
+### Would you like to help out more?
+
+Contact moujan@annawake.com 
+
 ### Acknowledgments
+
+[Parallels](http://www.parallels.com/) provides a Business Edition license of
+their software to run on the basebox build farm.
+
+<img src="http://www.parallels.com/fileadmin/images/corporate/brand-assets/images/logo-knockout-on-red.jpg" width="80">
 
 [SmartyStreets](http://www.smartystreets.com) is providing basebox hosting for the box-cutter project.
 
