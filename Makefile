@@ -14,8 +14,9 @@ else
 	BOX_SUFFIX := -$(CM)$(CM_VERSION)-$(BOX_VERSION).box
 endif
 
+BUILDER_TYPES ?= vmware virtualbox parallels
 TEMPLATE_FILENAMES := $(filter-out ubuntu.json ubuntu1510.json,$(wildcard *.json))
-BOX_NAMES := $(basename $(TEMPLATE_FILENAMES))
+BOX_NAMES := $(basename $(TEMPLATE_FILENAMES)) ubuntu1510
 BOX_FILENAMES := $(TEMPLATE_FILENAMES:.json=$(BOX_SUFFIX))
 VMWARE_BOX_DIR ?= box/vmware
 VMWARE_TEMPLATE_FILENAMES = $(TEMPLATE_FILENAMES)
@@ -24,11 +25,11 @@ VMWARE_BOX_FILES := $(foreach box_filename, $(VMWARE_BOX_FILENAMES), $(VMWARE_BO
 VIRTUALBOX_BOX_DIR ?= box/virtualbox
 VIRTUALBOX_TEMPLATE_FILENAMES = $(TEMPLATE_FILENAMES)
 VIRTUALBOX_BOX_FILENAMES := $(VIRTUALBOX_TEMPLATE_FILENAMES:.json=$(BOX_SUFFIX))
-VIRTUALBOX_BOX_FILES := $(foreach box_filename, $(VIRTUALBOX_BOX_FILENAMES), $(VIRTUALBOX_BOX_DIR)/$(box_filename))
+VIRTUALBOX_BOX_FILES := $(foreach box_filename, $(VIRTUALBOX_BOX_FILENAMES), $(VIRTUALBOX_BOX_DIR)/$(box_filename)) box/virtualbox/ubuntu1510$(BOX_SUFFIX)
 PARALLELS_BOX_DIR ?= box/parallels
 PARALLELS_TEMPLATE_FILENAMES = $(TEMPLATE_FILENAMES)
 PARALLELS_BOX_FILENAMES := $(PARALLELS_TEMPLATE_FILENAMES:.json=$(BOX_SUFFIX))
-PARALLELS_BOX_FILES := $(foreach box_filename, $(PARALLELS_BOX_FILENAMES), $(PARALLELS_BOX_DIR)/$(box_filename))
+PARALLELS_BOX_FILES := $(foreach box_filename, $(PARALLELS_BOX_FILENAMES), $(PARALLELS_BOX_DIR)/$(box_filename)) box/parallels/ubuntu1510$(BOX_SUFFIX)
 BOX_FILES := $(VMWARE_BOX_FILES) $(VIRTUALBOX_BOX_FILES) $(PARALLELS_BOX_FILES)
 
 box/vmware/%$(BOX_SUFFIX) box/virtualbox/%$(BOX_SUFFIX) box/parallels/%$(BOX_SUFFIX): %.json
@@ -95,15 +96,18 @@ assure_atlas_parallels:
 deliver:
 	@for box_name in $(BOX_NAMES) ; do \
 		echo Uploading $$box_name to Atlas ; \
-		bin/register_atlas_box_cutter.sh $$box_name $(BOX_SUFFIX) $(BOX_VERSION) ; \
 		bin/register_atlas.sh $$box_name $(BOX_SUFFIX) $(BOX_VERSION) ; \
 	done
 
 clean:
-	rm -f $(BOX_FILES)
-	echo Deleting output-*vmware-iso ; \
-	echo rm -rf output-*vmware-iso ; \
-	echo Deleting output-*virtualbox-iso ; \
-	echo rm -rf output-*virtualbox-iso ; \
-	echo Deleting output-*parallels-iso ; \
-	echo rm -rf output-*parallels-iso ; \
+	@for builder in $(BUILDER_TYPES) ; do \
+		echo Deleting output-*-$$builder-iso ; \
+		echo rm -rf output-*-$$builder-iso ; \
+	done
+	@for builder in $(BUILDER_TYPES) ; do \
+		if test -d box/$$builder ; then \
+			echo Deleting box/$$builder/*.box ; \
+			find box/$$builder -maxdepth 1 -type f -name "*.box" ! -name .gitignore -exec rm '{}' \; ; \
+		fi ; \
+	done
+

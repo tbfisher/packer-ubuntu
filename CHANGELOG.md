@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.0.12 (2015-12-24)
+
+* Upgrade VirtualBox guest additions to 5.0.12
+* Upgrade to Docker 1.9.1
+
+## 2.0.11 (2015-12-12)
+
+* Upgrade VMware guest tools to 10.0.5 for VMware Fusion 8.1.0
+
+## 2.0.10 (2015-11-28)
+
+* Upgrade ubuntu1204-desktop to 12.04.5
+
 ## 2.0.9 (2015-11-19)
 
 * Make images smaller by delaying creation of the swap partition
