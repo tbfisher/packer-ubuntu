@@ -7,16 +7,19 @@ git checkout tbfisher/build-docker
 @todo
 
 ```shell
-git merge 2.0.4
+git fetch boxcutter
+git merge 2.0.9
 # ...
 ```
 
 Start each provider, check for updates
 
-Test
+Build
 
 ```shell
 ./bin/box build ubuntu1504-docker vmware
+
+# test...
 ./bin/box ssh box/vmware/ubuntu1504-docker-nocm-$(cat VERSION).box vmware
 ##
 df -h # 64G
@@ -26,38 +29,6 @@ docker-machine --version
 exit
 
 ./bin/box build ubuntu1504-docker virtualbox
-```
-
-Build
-
-```shell
-rm -rf box/*/*
-
-./build-box -parallel=false
-
-
-packer build -only=vmware-iso -var-file=ubuntu1504.json ubuntu.json && \
-packer build -only=virtualbox-iso -var-file=ubuntu1504.json ubuntu.json
-```
-
-
-
-
-
-
-
-
-Test any mods
-
-```shell
-make ssh-vmware/ubuntu1504-docker
-
-# will dump into ssh session inside vm
-
-df -h # 64G
-docker --version
-docker-compose --version
-docker-machine --version
 ```
 
 Upload
@@ -86,6 +57,12 @@ exit
 vagrant destroy
 ```
 
+clean up
+
+```shell
+make clean
+```
+
 ### Atlas Description
 
 [15.04-docker](https://atlas.hashicorp.com/tbfisher/boxes/ubuntu1504docker)
@@ -97,12 +74,13 @@ Fork of boxcutter/ubuntu1504
 With
 
 -   64 GB disk
--   Docker 1.8.2
--   Docker Compose 1.4.2
+-   Docker 1.9.1
+-   Docker Compose 1.5.1
+-   Docker Machine 0.5.1
 
 Built with
 
--   VMware Fusion 7.1.3
+-   VMware Fusion 8.0.2
 -   Virutalbox 5.0.10
 
 https://github.com/tbfisher/packer-ubuntu
