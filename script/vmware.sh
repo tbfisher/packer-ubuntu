@@ -17,7 +17,7 @@ if [[ $PACKER_BUILDER_TYPE =~ vmware ]]; then
     VMWARE_TOOLS_BUILD=$(basename ${VMWARE_TOOLS_BUILD} .tar.gz)
     echo "==> VMware Tools Path: ${VMWARE_TOOLS_PATH}"
     echo "==> VMWare Tools Version: ${VMWARE_TOOLS_VERSION}"
-    echo "==> VMware Tools Build: ${VMWARE_TOOLS_BUILD}" 
+    echo "==> VMware Tools Build: ${VMWARE_TOOLS_BUILD}"
 
     tar zxf /mnt/cdrom/VMwareTools-*.tar.gz -C /tmp/
     VMWARE_TOOLS_MAJOR_VERSION=$(echo ${VMWARE_TOOLS_VERSION} | cut -d '.' -f 1)
@@ -33,7 +33,7 @@ if [[ $PACKER_BUILDER_TYPE =~ vmware ]]; then
     rm -rf /tmp/VMwareTools-*
 
     VMWARE_TOOLBOX_CMD_VERSION=$(vmware-toolbox-cmd -v)
-    echo "==> Installed VMware Tools ${VMWARE_TOOLBOX_CMD_VERSION}" 
+    echo "==> Installed VMware Tools ${VMWARE_TOOLBOX_CMD_VERSION}"
 
     echo "==> Checking version of Ubuntu"
     . /etc/lsb-release

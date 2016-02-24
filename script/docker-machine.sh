@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOCKERMACHINE_VERSION=0.5.3
+DOCKERMACHINE_VERSION=0.6.0
 
 docker_machine_install() {
 
@@ -8,7 +8,7 @@ docker_machine_install() {
     apt-get update
     apt-get install -y zip
 
-    URL=https://github.com/docker/machine/releases/download/v${DOCKERMACHINE_VERSION}/docker-machine_linux-amd64
+    URL=https://github.com/docker/machine/releases/download/v${DOCKERMACHINE_VERSION}/docker-machine-Linux-x86_64
 
     echo downloading and installing ${URL}
 
