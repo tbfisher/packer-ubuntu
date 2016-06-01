@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOCKERCOMPOSE_VERSION=1.6.2
+DOCKERCOMPOSE_VERSION=1.7.1
 
 docker_compose_package_install() {
 
