@@ -8,13 +8,13 @@ pull
 
 ```shell
 git fetch boxcutter
-git merge 2.0.14
+git merge 2.0.18
 ```
 
-update docker compose/machine verions:
+update docker compose/machine versions:
 
--   https://github.com/docker/machine/releases/
--   https://github.com/docker/compose/releases/
+-   https://github.com/docker/machine/tags
+-   https://github.com/docker/compose/tags
 
 Start each provider, check for updates
 
@@ -26,7 +26,7 @@ Build
 # test...
 ./bin/box ssh box/vmware/ubuntu1404-docker-nocm-$(cat VERSION).box vmware
 ##
-df -h # 64G
+df -h # 128G
 docker --version
 docker-compose --version
 docker-machine --version
@@ -55,7 +55,6 @@ vagrant box update
 vagrant up
 vagrant ssh
 
-puppet --version
 exit
 
 vagrant destroy
@@ -78,15 +77,15 @@ Fork of boxcutter/ubuntu1404
 
 With
 
--   64 GB disk
--   Docker 1.10.2
--   Docker Compose 1.6.2
--   Docker Machine 0.6.0
+-   128 GB disk
+-   Docker 1.11.1
+-   Docker Compose 1.7.1
+-   Docker Machine 0.7.0
 
 Built with
 
--   VMware Fusion 8.1.0, Open VM Tools 9.4.0.25793
--   Virtualbox 5.0.14, Guest Additions 5.0.14
+-   VMware Fusion 8.1.1, VMware Tools 10.0.6
+-   Virtualbox 5.0.20, VirtualBox Guest Additions 5.0.20
 
 https://github.com/tbfisher/packer-ubuntu
 ```
