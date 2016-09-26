@@ -67,8 +67,11 @@ get_short_description() {
     RAW_VERSION=${RAW_VERSION%-desktop}
     PRETTY_VERSION=${RAW_VERSION:0:2}.${RAW_VERSION:2}
     case ${PRETTY_VERSION} in
+    16.10)
+        PRETTY_VERSION="16.10 Yakkety Yak (development branch)"
+        ;;
     16.04)
-        PRETTY_VERSION="16.04 Xenial Xerus"
+        PRETTY_VERSION="16.04.1 Xenial Xerus"
         ;;
     15.10)
         PRETTY_VERSION="15.10 Wily Werewolf"
@@ -80,7 +83,7 @@ get_short_description() {
         PRETTY_VERSION="14.10 Utopic Unicorn"
         ;;
     14.04)
-        PRETTY_VERSION="14.04.4 LTS Trusty Tahr"
+        PRETTY_VERSION="14.04.5 LTS Trusty Tahr"
         ;;
     12.04)
         PRETTY_VERSION="12.04.5 LTS Precise Pangolin"
@@ -92,7 +95,7 @@ get_short_description() {
 
     VIRTUALBOX_VERSION=$(VirtualBox --help | head -n 1 | awk '{print $NF}')
     PARALLELS_VERSION=$(prlctl --version | awk '{print $3}')
-    VMWARE_VERSION=10.0.5
+    VMWARE_VERSION=10.0.10
     SHORT_DESCRIPTION="Ubuntu${EDITION_STRING} ${PRETTY_VERSION} (${BIT_STRING})${DOCKER_STRING}"
 }
 
@@ -118,8 +121,11 @@ create_description() {
     RAW_VERSION=${RAW_VERSION%-desktop}
     PRETTY_VERSION=${RAW_VERSION:0:2}.${RAW_VERSION:2}
     case ${PRETTY_VERSION} in
+    16.10)
+        PRETTY_VERSION="16.10 Yakkety Yak (development branch)"
+        ;;
     16.04)
-        PRETTY_VERSION="16.04 Xenial Xerus"
+        PRETTY_VERSION="16.04.1 Xenial Xerus"
         ;;
     15.10)
         PRETTY_VERSION="15.10 Wily Werewolf"
@@ -131,7 +137,7 @@ create_description() {
         PRETTY_VERSION="14.10 Utopic Unicorn"
         ;;
     14.04)
-        PRETTY_VERSION="14.04.4 LTS Trusty Tahr"
+        PRETTY_VERSION="14.04.5 LTS Trusty Tahr"
         ;;
     12.04)
         PRETTY_VERSION="12.04.5 LTS Precise Pangolin"
@@ -143,7 +149,7 @@ create_description() {
 
     VIRTUALBOX_VERSION=$(VirtualBox --help | head -n 1 | awk '{print $NF}')
     PARALLELS_VERSION=$(prlctl --version | awk '{print $3}')
-    VMWARE_VERSION=10.0.5
+    VMWARE_VERSION=10.0.10
 
     VMWARE_BOX_FILE=box/vmware/${BOX_NAME}${BOX_SUFFIX}
     VIRTUALBOX_BOX_FILE=box/virtualbox/${BOX_NAME}${BOX_SUFFIX}

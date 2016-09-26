@@ -18,7 +18,7 @@ if [ -d "/var/lib/dhcp" ]; then
 fi 
 
 UBUNTU_VERSION=$(lsb_release -sr)
-if [[ ${UBUNTU_VERSION} == 16.04 ]]; then
+if [[ ${UBUNTU_VERSION} == 16.04 ]] || [[ ${UBUNTU_VERSION} == 16.10 ]]; then
     # from https://github.com/cbednarski/packer-ubuntu/blob/master/scripts-1604/vm_cleanup.sh#L9-L15
     # When booting with Vagrant / VMware the PCI slot is changed from 33 to 32.
     # Instead of eth0 the interface is now called ens33 to mach the PCI slot,
@@ -53,7 +53,7 @@ rm -f /root/.bash_history
 rm -f /home/${SSH_USER}/.bash_history
 
 # Clean up log files
-find /var/log -type f | while read f; do echo -ne '' > $f; done;
+find /var/log -type f | while read f; do echo -ne '' > "${f}"; done;
 
 echo "==> Clearing last login information"
 >/var/log/lastlog

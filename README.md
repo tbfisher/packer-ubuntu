@@ -8,18 +8,16 @@ This repository contains [Packer](https://packer.io/) templates for creating Ubu
 
 64-bit boxes:
 
-* [Ubuntu Server 16.04 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1604)
-* [Ubuntu Server 15.10 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1510)
-* [Ubuntu Server 14.04.4 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1404)
-* [Ubuntu Desktop 14.04.4 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1404-desktop)
-* [Ubuntu Server 14.04.4 (64-bit) with Docker preinstalled](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1404-docker)
+* [Ubuntu Server 16.10 (development branch) (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1610)
+* [Ubuntu Server 16.04.1 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1604)
+* [Ubuntu Server 14.04.5 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1404)
+* [Ubuntu Desktop 14.04.5 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1404-desktop)
 * [Ubuntu Server 12.04.5 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1204)
 * [Ubuntu Desktop 12.04.5 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1204-desktop)
-* [Ubuntu Server 12.04.5 (64-bit) with Docker preinstalled](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1204-docker)
 
 32-bit boxes:
 
-* [Ubuntu Server 14.04.4 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1404-i386)
+* [Ubuntu Server 14.04.5 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1404-i386)
 * [Ubuntu Server 12.04.5 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1204-i386)
 
 ## Building the Vagrant boxes with Packer
@@ -34,6 +32,8 @@ be installed as an additional preqrequisite.
 
 VMware Fusion boxes require this patch when running version 8.1.0 to enable port forwarding:
 https://blogs.vmware.com/teamfusion/2016/01/workaround-of-nat-port-forwarding-issue-in-fusion-8-1.html
+
+VMware Fusion 8.1.1 comes with the patch.
 
 We make use of JSON files containing user variables to build specific versions of Ubuntu.
 You tell `packer` to use a specific user variable file via the `-var-file=` command line
@@ -121,29 +121,10 @@ There are several variables that can be used to override some of the default
 settings in the box build process. The variables can that can be currently
 used are:
 
-* cm
-* cm_version
 * cpus
 * disk_size
 * memory
 * update
-
-Changing the value of the `CM` variable changes the target suffixes for
-the output of `make list` accordingly.
-
-Possible values for the CM variable are:
-
-* `nocm` - No configuration management tool
-* `ansible` - Install Ansible
-* `chef` - Install Chef
-* `chefdk` - Install Chef Development Kit
-* `puppet` - Install Puppet
-* `salt`  - Install Salt
-
-You can also specify a variable `CM_VERSION`, if supported by the
-configuration management tool, to override the default of `latest`.
-The value of `CM_VERSION` should have the form `x.y` or `x.y.z`,
-such as `CM_VERSION := 12.9.32`
 
 The variable `HEADLESS` can be set to run Packer in headless mode.
 Set `HEADLESS := true`, the default is false.

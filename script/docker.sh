@@ -1,22 +1,25 @@
 #!/bin/bash
 
-if [[ ! "$DOCKER" =~ ^(true|yes|on|1|TRUE|YES|ON])$ ]]; then
-  exit
-fi
-
 SSH_USERNAME=${SSH_USERNAME:-vagrant}
 
 UBUNTU_MAJOR_VERSION=$(lsb_release -rs | cut -f1 -d .)
+case "$UBUNTU_MAJOR_VERSION" in
+  12) UBUNTU_NAME="precise" ;;
+  14) UBUNTU_NAME="trusty" ;;
+  15) UBUNTU_NAME="wily" ;;
+  16) UBUNTU_NAME="xenial" ;;
+esac
 
 docker_package_install() {
+
+    apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+    echo "deb https://apt.dockerproject.org/repo ubuntu-${UBUNTU_NAME} main" > /etc/apt/sources.list.d/docker.list
+
     # Update your sources
     apt-get update
 
-    # Get the latest docker package
-    curl -sSL https://get.docker.com/gpg | sudo apt-key add -
-
     # Install Docker
-    curl -sSL https://get.docker.com/ | sh
+    apt-get install -y docker-engine
 
     # Enable memory and swap accounting
     sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"/' /etc/default/grub
@@ -25,7 +28,7 @@ docker_package_install() {
     # Docker package does not current configure daemon to start on boot
     # for Ubuntu 15.04 and up
     if [[ "${UBUNTU_MAJOR_VERSION}" -gt "14" ]]; then
-      sudo systemctl enable docker
+      systemctl enable docker
     fi
 
     # reboot
@@ -36,7 +39,7 @@ docker_package_install() {
 
 docker_io_install() {
     echo "==> Installing Docker"
-    
+
     # Update sources
     apt-get update
     apt-get install -y docker.io
@@ -58,7 +61,7 @@ docker_io_install() {
 
     # not really needed because docker.io is still there
     sed -i 's/\(docker\)\.io/\1/g' /usr/share/docker.io/contrib/*.sh
-    
+
     # Enable memory and swap accounting
     sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"/' /etc/default/grub
     update-grub
@@ -84,4 +87,4 @@ give_docker_non_root_access() {
 }
 
 give_docker_non_root_access
-docker_package_install 
+docker_package_install

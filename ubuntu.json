@@ -6,7 +6,7 @@
         "{{ user `boot_command_prefix` }}",
         "/install/vmlinuz noapic ",
         "file=/floppy/{{ user `preseed` }} ",
-        "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
+        "debian-installer={{ user `locale` }} auto locale={{ user `locale` }} kbd-chooser/method=us ",
         "hostname={{ user `hostname` }} ",
         "grub-installer/bootdev=/dev/sda<wait> ",
         "fb=false debconf/frontend=noninteractive ",
@@ -108,7 +108,7 @@
         "passwd/user-password={{ user `ssh_password` }} ",
         "passwd/user-password-again={{ user `ssh_password` }} ",
         "passwd/username={{ user `ssh_username` }} ",
-        "initrd=/install/initrd.gz -- <wait><enter>" 
+        "initrd=/install/initrd.gz -- <wait><enter>"
       ],
       "disk_size": "{{ user `disk_size` }}",
       "floppy_files": [
@@ -144,7 +144,7 @@
   "post-processors": [
     {
       "keep_input_artifact": false,
-      "output": "box/{{.Provider}}/{{user `vm_name`}}-{{user `cm`}}{{user `cm_version`}}-{{user `version`}}.box",
+      "output": "box/{{.Provider}}/{{user `vm_name`}}-{{user `version`}}.box",
       "type": "vagrant",
       "vagrantfile_template": "{{ user `vagrantfile_template` }}"
     }
@@ -152,11 +152,8 @@
   "provisioners": [
     {
       "environment_vars": [
-        "CM={{user `cm`}}",
-        "CM_VERSION={{user `cm_version`}}",
         "CLEANUP_PAUSE={{user `cleanup_pause`}}",
         "DESKTOP={{user `desktop`}}",
-        "DOCKER={{user `docker`}}",
         "UPDATE={{user `update`}}",
         "INSTALL_VAGRANT_KEY={{user `install_vagrant_key`}}",
         "SSH_USERNAME={{user `ssh_username`}}",
@@ -177,9 +174,6 @@
         "script/virtualbox.sh",
         "script/parallels.sh",
         "script/docker.sh",
-        "script/docker-compose.sh",
-        "script/docker-machine.sh",
-        "script/cmtool.sh",
         "script/motd.sh",
         "custom-script.sh",
         "script/minimize.sh",
@@ -191,15 +185,12 @@
   "variables": {
     "boot_command_prefix": "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
     "cleanup_pause": "",
-    "cm": "nocm",
-    "cm_version": "",
     "cpus": "1",
     "custom_script": ".",
     "desktop": "false",
     "disk_size": "131072",
-    "docker": "false",
     "ftp_proxy": "{{env `ftp_proxy`}}",
-    "headless": "",
+    "headless": "true",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "install_vagrant_key": "true",
@@ -208,6 +199,7 @@
     "iso_name": "ubuntu-16.04-server-amd64.iso",
     "iso_path": "/Volumes/Storage/software/ubuntu",
     "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04-server-amd64.iso",
+    "locale": "en_US",
     "memory": "512",
     "no_proxy": "{{env `no_proxy`}}",
     "parallels_guest_os_type": "ubuntu",
@@ -221,7 +213,7 @@
     "vagrantfile_template": "",
     "version": "0.1.0",
     "virtualbox_guest_os_type": "Ubuntu_64",
-    "vm_name": "ubuntu1404",
+    "vm_name": "ubuntu1604",
     "vmware_guest_os_type": "ubuntu-64"
   }
 }
