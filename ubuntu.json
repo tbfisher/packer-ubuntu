@@ -77,12 +77,16 @@
         "{{ user `iso_url` }}"
       ],
       "output_directory": "output-{{ user `vm_name` }}-virtualbox-iso",
+      "post_shutdown_delay": "1m",
       "shutdown_command": "echo '{{ user `ssh_password` }}'|sudo -S shutdown -P now",
       "ssh_password": "{{ user `ssh_password` }}",
       "ssh_username": "{{ user `ssh_username` }}",
       "ssh_wait_timeout": "10000s",
       "type": "virtualbox-iso",
       "vboxmanage": [
+        [
+          "modifyvm", "{{.Name}}", "--nictype1", "virtio"
+        ],
         [
           "modifyvm", "{{.Name}}", "--memory", "{{ user `memory` }}"
         ],
@@ -175,7 +179,7 @@
         "script/parallels.sh",
         "script/docker.sh",
         "script/motd.sh",
-        "custom-script.sh",
+        "{{user `custom_script`}}",
         "script/minimize.sh",
         "script/cleanup.sh"
       ],
@@ -186,7 +190,7 @@
     "boot_command_prefix": "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
     "cleanup_pause": "",
     "cpus": "1",
-    "custom_script": ".",
+    "custom_script": "custom-script.sh",
     "desktop": "false",
     "disk_size": "131072",
     "ftp_proxy": "{{env `ftp_proxy`}}",

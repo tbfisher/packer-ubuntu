@@ -8,8 +8,10 @@ This repository contains [Packer](https://packer.io/) templates for creating Ubu
 
 64-bit boxes:
 
-* [Ubuntu Server 16.10 (development branch) (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1610)
+* [Ubuntu Server 16.10 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1610)
+* [Ubuntu Desktop 16.10 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1610-desktop)
 * [Ubuntu Server 16.04.1 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1604)
+* [Ubuntu Desktop 16.04.1 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1604-desktop)
 * [Ubuntu Server 14.04.5 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1404)
 * [Ubuntu Desktop 14.04.5 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1404-desktop)
 * [Ubuntu Server 12.04.5 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1204)
@@ -17,6 +19,8 @@ This repository contains [Packer](https://packer.io/) templates for creating Ubu
 
 32-bit boxes:
 
+* [Ubuntu Server 16.10 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1610-i386)
+* [Ubuntu Server 16.04.1 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1604-i386)
 * [Ubuntu Server 14.04.5 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1404-i386)
 * [Ubuntu Server 12.04.5 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/ubuntu1204-i386)
 
@@ -29,11 +33,6 @@ To build all the boxes, you will need [VirtualBox](https://www.virtualbox.org/wi
 Parallels requires that the
 [Parallels Virtualization SDK for Mac](http://www.parallels.com/downloads/desktop)
 be installed as an additional preqrequisite.
-
-VMware Fusion boxes require this patch when running version 8.1.0 to enable port forwarding:
-https://blogs.vmware.com/teamfusion/2016/01/workaround-of-nat-port-forwarding-issue-in-fusion-8-1.html
-
-VMware Fusion 8.1.1 comes with the patch.
 
 We make use of JSON files containing user variables to build specific versions of Ubuntu.
 You tell `packer` to use a specific user variable file via the `-var-file=` command line
@@ -147,6 +146,11 @@ The variables `SSH_USERNAME` and `SSH_PASSWORD` can be used to change the
 The variable `INSTALL_VAGRANT_KEY` can be set to turn off installation of the
 default insecure vagrant key when the image is being used outside of vagrant.
 Set `INSTALL_VAGRANT_KEY := false`, the default is true.
+
+The variable `CUSTOM_SCRIPT` can be used to specify a custom script
+to be executed. You can add it to the `script/custom` directory (content
+is ignored by Git).
+The default is `custom-script.sh` which does nothing.
 
 ## Contributing
 
